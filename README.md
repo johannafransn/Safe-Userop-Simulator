@@ -2,6 +2,18 @@
 
 Have foundry installed on your machine
 
+## Why this is needed
+
+```
+Failed to execute transaction: Execution reverted with reason: UserOperation reverted during simulation with reason: 0x.
+Request Arguments:
+callData:     0x541d63c8000000....000
+```
+
+Have you ever encountered this generic userop error? It is a pain to debug because the call could include a number of different transactions to different contracts.
+
+This script is a quick way to debug the calldata and simulate the userop and get exact revert reason and which transaction is causing the issue.
+
 # How to run simulation
 
 - Add your ENV variables to the .env file (see .env.example)
