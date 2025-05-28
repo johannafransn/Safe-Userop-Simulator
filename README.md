@@ -2,7 +2,7 @@
 
 Have foundry installed on your machine
 
-### How to run simulation
+# How to run simulation
 
 - Add your ENV variables to the .env file (see .env.example)
 - Copy your calldata from the Metri raw error in console
@@ -13,4 +13,28 @@ Have foundry installed on your machine
 ```bash
 source .env
 forge script script/DebugCalldata.s.sol --rpc-url gnosis --etherscan-api-key ${GNOSIS_SCAN_KEY} -vvvv
+```
+
+## If you only have batch tx array list
+
+If you are in the position where you have the batch tx array list, you can use the following script code to get the raw calldata for the entire batch userop.
+
+```typescript
+const MULTICALL_3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
+
+const multicallData = encodeFunctionData({
+  abi: aggregateAbi,
+  functionName: "aggregate3Value",
+  args: [
+    //where transactions is the array of transactions to be executed in sequence
+    transactions.map((tx) => ({
+      target: tx.to,
+      allowFailure: false,
+      value: tx.value ?? 0n,
+      callData: tx.data,
+    })),
+  ],
+});
+
+console.log(multicallData, "raw calldata");
 ```
