@@ -23,7 +23,7 @@ If you are in the position where you have the batch tx array list, you can use t
 const MULTICALL_3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
 
 const multicallData = encodeFunctionData({
-  abi: aggregateAbi,
+  abi: multicall3Abi,
   functionName: "aggregate3Value",
   args: [
     //where transactions is the array of transactions to be executed in sequence
