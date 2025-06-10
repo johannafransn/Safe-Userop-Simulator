@@ -32,21 +32,26 @@ forge script script/DebugCalldata.s.sol --rpc-url gnosis --etherscan-api-key ${G
 If you are in the position where you have the batch tx array list, you can use the following script code to get the raw calldata for the entire batch userop.
 
 ```typescript
-const MULTICALL_3_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
+const MULTISEND_ADDRESS = "0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761";
 
-const multicallData = encodeFunctionData({
-  abi: multicall3Abi,
-  functionName: "aggregate3Value",
-  args: [
-    //where transactions is the array of transactions to be executed in sequence
-    transactions.map((tx) => ({
-      target: tx.to,
-      allowFailure: false,
-      value: tx.value ?? 0n,
-      callData: tx.data,
-    })),
-  ],
-});
+export const encodeMultiSendTransactions = (
+    transactions: MultiSendTransaction[]
+) => {
+    return concat(
+        transactions.map(({ op, to, value, data }) =>
+            encodePacked(
+                ["uint8", "address", "uint256", "uint256", "bytes"],
+                [op, to, value ?? 0n, BigInt(size(data)), data as `0x${string}`]
+            )
+        )
+    );
+};
 
-console.log(multicallData, "raw calldata");
+const multisendCalldata encodeFunctionData({
+        abi: MultiSendContractABI,
+        functionName: "multiSend",
+        args: [encodeMultiSendTransactions(transactions)],
+})
+
+console.log(multisendCalldata, "raw calldata");
 ```
