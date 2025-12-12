@@ -23,8 +23,12 @@ This script is a quick way to debug the calldata and simulate the userop and get
 - Run the script
 
 ```bash
+# For Gnosis chain simulation
 source .env
 forge script script/DebugCalldata.s.sol --rpc-url gnosis --etherscan-api-key ${GNOSIS_SCAN_KEY} -vvvv
+
+# For Base Sepolia simulation
+forge script script/DebugCalldataBaseSepolia.s.sol --rpc-url https://sepolia.base.org/ --etherscan-api-key 1RN61PG4A72SS8EQ3HVQGGFTEXRFHI6HPI -vvvv
 ```
 
 ## If you only have batch tx array list
